@@ -1,5 +1,6 @@
 import typing
 from user import CAH_User
+from safe_dm import dm
 class Player(object):
 	"""docstring for Player"""
 	def __init__(self, cah_user:CAH_User, parent_game):
@@ -10,6 +11,11 @@ class Player(object):
 		self.hand = []
 		self.blackcards = []
 		self.played_cards = []
+		self.winnings = []
+	@property
+	def played_cards_as_text(self):
+		return "\n".join(["\n"+card.text.replace("\n","\n> ") for card in played_cards])
+
 	def playcards(self, card_ids:typing.List[int]):
 		cards = []
 		for card_id in card_ids:
@@ -28,6 +34,4 @@ class Player(object):
 
 	async def show_hand(self):
 		user = self.cah_user.discord_user
-		if user.dm_channel == None:
-			await user.create_dm()
-		await user.dm_channel.send("\n".join(["card #{card_id}:\n> {card}".format(card=self.hand[card_id].text.replace("\n","\n> "),card_id=card_id) for card_id in range(len(self.hand))]))
+		await dm(user,"\n".join(["card #{card_id}:\n> {card}".format(card=self.hand[card_id].text.replace("\n","\n> "),card_id=card_id+1) for card_id in range(len(self.hand))]))
