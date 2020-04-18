@@ -1,0 +1,9 @@
+{
+	"main_channel":<put a discord channel-id>,
+	"min_playera":2,
+	"not_decks":["blackCards","whiteCards","order"],
+	"blacklisted_decks":[],
+	"whitelisted_decks":["base"],
+	"deck_restriction_mode":"whitelist"
+
+}
